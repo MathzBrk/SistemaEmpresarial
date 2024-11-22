@@ -12,7 +12,7 @@ public class Departamento {
     private String nome;
     private String descricao;
 
-    @OneToMany(mappedBy = "id_departamento")
+    @OneToMany(mappedBy = "departamento")
     private List<Funcionario> funcionarios;
 
     public Departamento() {}

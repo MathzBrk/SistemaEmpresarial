@@ -13,7 +13,7 @@ public class Beneficio {
     private String descricao;
     private Double valor;
 
-    @ManyToMany(mappedBy = "beneficios")
+    @ManyToMany(mappedBy = "beneficio")
     private List<Funcionario> funcionarios;
 
     public Beneficio (){}

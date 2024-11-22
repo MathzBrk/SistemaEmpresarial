@@ -11,6 +11,7 @@ public class Cargo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String nome;
     private String descricao;
     private Double salarioBase;
 
@@ -19,10 +20,12 @@ public class Cargo {
 
     public Cargo() {}
 
-    public Cargo( String descricao, Double salarioBase ) {
+    public Cargo(Long id, String nome, String descricao, Double salarioBase, List<Funcionario> funcionarios) {
+        this.id = id;
+        this.nome = nome;
         this.descricao = descricao;
         this.salarioBase = salarioBase;
-        this.funcionarios = new ArrayList<>();
+        this.funcionarios = funcionarios;
     }
 
     public Long getId() {
@@ -31,6 +34,14 @@ public class Cargo {
 
     public void setId( Long id ) {
         this.id = id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public String getDescricao() {
