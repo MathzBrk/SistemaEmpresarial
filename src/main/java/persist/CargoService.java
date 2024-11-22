@@ -50,6 +50,7 @@ public class CargoService {
         }
 
         em.getTransaction().commit();
+        em.close();
     }
 
     public void excluirCargo(Long id) {
@@ -62,6 +63,5 @@ public class CargoService {
             em.getTransaction().rollback();
             throw new RuntimeException("Erro ao excluir cargo" + e.getMessage(),e);
         }
-
     }
 }

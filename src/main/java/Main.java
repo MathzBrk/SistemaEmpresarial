@@ -1,3 +1,5 @@
+import persist.BeneficioService;
+import view.BeneficioController;
 import view.CargoController;
 
 import java.util.Scanner;
@@ -6,6 +8,7 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         CargoController cargoController = new CargoController();
+        BeneficioController beneficioController = new BeneficioController();
 
         while (true) {
             System.out.println("\n=== Menu Principal ===");
@@ -23,6 +26,8 @@ public class Main {
                 case 1:
                     cargoController.exibirMenuCargo();
                     break;
+                case 4:
+                    beneficioController.exibirMenuBeneficio();
                 case 5:
                     System.out.println("Saindo...");
                     scanner.close();
