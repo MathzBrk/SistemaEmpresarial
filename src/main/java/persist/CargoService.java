@@ -1,14 +1,15 @@
 package persist;
 
 import model.Cargo;
+import model.Departamento;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.util.List;
 
 public class CargoService {
-    EntityManagerFactory emf = Persistence.createEntityManagerFactory("pouso-tech");
-    EntityManager em = emf.createEntityManager();
+    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("pouso-tech");
 
     public CargoService() {
     }
@@ -76,6 +77,26 @@ public class CargoService {
             throw new RuntimeException("Erro ao excluir cargo" + e.getMessage(),e);
         } finally {
             em.close();
+        }
+    }
+
+    public List<Cargo> buscarCargoBanco(){
+        EntityManager em = getEntityManager();
+        try{
+            return em.createQuery("SELECT c FROM Cargo c", Cargo.class).getResultList();
+        } catch (Exception e) {
+            throw new RuntimeException(" Erro ao buscar cargos!" + e.getMessage(), e);
+        } finally {
+            em.close();
+        }
+
+    }
+
+    public void listarCargos() {
+        List<Cargo> cargos = buscarCargoBanco();
+        for (Cargo c : cargos) {
+            System.out.println("Cargo ID: " + c.getId());
+            System.out.println("Cargo nome: " + c.getNome());
         }
     }
 }
