@@ -109,4 +109,5 @@ public class Funcionario {
     public void setBeneficio( List<Beneficio> beneficio ) {
         this.beneficio = beneficio;
     }
+
 }

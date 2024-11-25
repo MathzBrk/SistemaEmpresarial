@@ -20,8 +20,7 @@ public class Cargo {
 
     public Cargo() {}
 
-    public Cargo(Long id, String nome, String descricao, Double salarioBase, List<Funcionario> funcionarios) {
-        this.id = id;
+    public Cargo(String nome, String descricao, Double salarioBase, List<Funcionario> funcionarios) {
         this.nome = nome;
         this.descricao = descricao;
         this.salarioBase = salarioBase;

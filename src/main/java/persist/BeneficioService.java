@@ -13,7 +13,12 @@ public class BeneficioService {
     public BeneficioService() {
     }
 
+    private EntityManager getEntityManager() {
+        return emf.createEntityManager();
+    }
+
     public void adicionarBeneficio(Beneficio beneficio) {
+        EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
             em.persist(beneficio);
@@ -21,19 +26,25 @@ public class BeneficioService {
         } catch (Exception e) {
             em.getTransaction().rollback();
             throw new RuntimeException("Erro ao adicionar beneficio" + e.getMessage(), e);
+        } finally {
+            em.close();
         }
     }
 
     public Beneficio consultarBeneficioPorID(Long id) {
+        EntityManager em = getEntityManager();
         try {
             Beneficio beneficio = em.find(Beneficio.class, id);
             return beneficio;
         } catch (Exception e) {
             throw new RuntimeException("Erro ao consultar beneficio" + e.getMessage(), e);
+        } finally {
+            em.close();
         }
     }
 
     public void atualizarBeneficio(Long id, String nome, String descricao, double valor) {
+        EntityManager em = getEntityManager();
         em.getTransaction().begin();
         Beneficio novoBeneficio = em.find(Beneficio.class, id);
 
@@ -51,6 +62,7 @@ public class BeneficioService {
     }
 
     public void excluirBeneficio(Long id) {
+        EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
             Beneficio beneficio = em.find(Beneficio.class, id);
@@ -58,6 +70,8 @@ public class BeneficioService {
             em.getTransaction().commit();
         } catch (Exception e) {
             throw new RuntimeException("Erro ao excluir beneficio" + e.getMessage(), e);
+        } finally {
+            em.close();
         }
     }
 }
