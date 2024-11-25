@@ -7,8 +7,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 public class BeneficioService {
-    EntityManagerFactory emf = Persistence.createEntityManagerFactory("pouso-tech");
-    EntityManager em = emf.createEntityManager();
+    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("pouso-tech");
 
     public BeneficioService() {
     }

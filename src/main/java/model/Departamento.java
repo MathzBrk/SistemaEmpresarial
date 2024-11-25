@@ -1,10 +1,13 @@
 package model;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "departamentos")
 public class Departamento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -12,7 +15,7 @@ public class Departamento {
     private String nome;
     private String descricao;
 
-    @OneToMany(mappedBy = "departamento")
+    @OneToMany(mappedBy = "departamento", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Funcionario> funcionarios;
 
     public Departamento() {}
