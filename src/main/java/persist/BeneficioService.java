@@ -1,10 +1,12 @@
 package persist;
 
 import model.Beneficio;
+import model.Funcionario;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.util.List;
 
 public class BeneficioService {
     private EntityManagerFactory emf = Persistence.createEntityManagerFactory("pouso-tech");
@@ -72,5 +74,27 @@ public class BeneficioService {
         } finally {
             em.close();
         }
+    }
+
+    public List<Beneficio> buscarBeneficiosBanco() {
+        EntityManager em = getEntityManager();
+        try{
+            return em.createQuery("SELECT b FROM Beneficio b", Beneficio.class).getResultList();
+        } catch (Exception e){
+            throw new RuntimeException("Erro ao buscar os benefícios: " + e.getMessage());
+        } finally {
+            em.close();
+        }
+    }
+
+    public void listarBeneficios(){
+        List<Beneficio> beneficios = buscarBeneficiosBanco();
+        for(Beneficio b : beneficios){
+            System.out.println("ID: " + b.getId());
+            System.out.println("Beneficio: " + b.getNome());
+            System.out.println("Descrição: " + b.getDescricao());
+            System.out.println("Valor do beneficio: " + b.getValor());
+        }
+
     }
 }

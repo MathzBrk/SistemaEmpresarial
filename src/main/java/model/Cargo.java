@@ -20,6 +20,16 @@ public class Cargo {
 
     public Cargo() {}
 
+    @Override
+    public String toString() {
+        return "Cargo{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", descricao='" + descricao + '\'' +
+                ", salarioBase=" + salarioBase +
+                '}';
+    }
+
     public Cargo(String nome, String descricao, Double salarioBase, List<Funcionario> funcionarios) {
         this.nome = nome;
         this.descricao = descricao;

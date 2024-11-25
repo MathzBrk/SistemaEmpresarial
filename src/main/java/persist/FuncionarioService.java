@@ -1,5 +1,6 @@
 package persist;
 
+import model.Beneficio;
 import model.Cargo;
 import model.Funcionario;
 
@@ -12,6 +13,8 @@ public class FuncionarioService {
     private EntityManagerFactory emf = Persistence.createEntityManagerFactory("pouso-tech");
 
     private CargoService cargoService;
+
+    private BeneficioService beneficioService;
 
 
     public FuncionarioService() {
@@ -114,5 +117,50 @@ public class FuncionarioService {
             System.out.println("ID Funcionario: " + f.getId());
             System.out.println("Nome: " + f.getNome());
         }
+    }
+
+    public void consultarBeneficiosFuncionario(Long id) {
+        Funcionario funcionario = consultarFuncionarioPorId(id);
+        List<Beneficio> beneficios = funcionario.getBeneficio();
+
+        try {
+            System.out.println("Funcionario: " + funcionario.getNome());
+            if (beneficios == null || beneficios.isEmpty()) {
+                System.out.println("O funcionário não tem beneficios");
+            } else {
+                for (Beneficio beneficio : beneficios) {
+                    System.out.println(("Beneficio: " + beneficio.getNome()));
+                    System.out.println("Descrição: " + beneficio.getDescricao());
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao buscar beneficios: " + e.getMessage());
+        }
+
+
+    }
+
+    public void adicionarBeneficioAoFuncionario(Long idFunc, Long idBen) {
+        EntityManager em = getEntityManager();
+
+        Funcionario funcionario = consultarFuncionarioPorId(idFunc);
+        Beneficio beneficio = beneficioService.consultarBeneficioPorID(idBen);
+
+        try{
+            funcionario.getBeneficio().add(beneficio);
+            beneficio.getFuncionarios().add(funcionario);
+
+            em.getTransaction().begin();
+            em.merge(funcionario);
+            em.merge(beneficio);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            throw new RuntimeException("Erro ao adicionar o beneficio de id " + beneficio.getId() + " ao funcionario de id: " + funcionario.getId());
+        }
+        finally {
+            em.close();
+        }
+
     }
 }

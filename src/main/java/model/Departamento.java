@@ -20,6 +20,15 @@ public class Departamento {
 
     public Departamento() {}
 
+    @Override
+    public String toString() {
+        return "Departamento{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", descricao='" + descricao + '\'' +
+                '}';
+    }
+
     public Departamento(String nome, String descricao ) {
         this.nome = nome;
         this.descricao = descricao;

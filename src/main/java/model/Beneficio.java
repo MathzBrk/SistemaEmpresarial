@@ -18,7 +18,17 @@ public class Beneficio {
 
     public Beneficio (){}
 
-    public Beneficio( String nome, String descricao, Double valor) {
+    @Override
+    public String toString() {
+        return "Beneficio{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", descricao='" + descricao + '\'' +
+                ", valor=" + valor +
+                '}';
+    }
+
+    public Beneficio(String nome, String descricao, Double valor) {
         this.nome = nome;
         this.descricao = descricao;
         this.valor = valor;
