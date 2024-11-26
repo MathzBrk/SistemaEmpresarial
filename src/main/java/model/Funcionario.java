@@ -18,15 +18,15 @@ public class Funcionario {
     private Double salario;
     private LocalDate dataAdmissao;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne( fetch = FetchType.EAGER)
     @JoinColumn(name = "id_cargo")
     private Cargo cargo;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_departamento")
     private Departamento departamento;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany( fetch = FetchType.EAGER)
     @JoinTable(
             name = "funcionarios_beneficios",
             joinColumns = @JoinColumn(name = "funcionario_id"),
@@ -43,7 +43,6 @@ public class Funcionario {
         this.dataAdmissao = dataAdmissao;
         this.cargo = cargo;
         this.departamento = departamento;
-        this.beneficio = new ArrayList<>();
     }
 
     @Override

@@ -75,12 +75,10 @@ public class FuncionarioController {
         funcionarioService.listarFuncionarios();
         System.out.println("Digite o ID do funcionário que deseja adicionar um benefício: ");
         Long idFunc = scanner.nextLong();
-        scanner.nextLine();
 
-        System.out.println("Digite o id do beneficio que deseja adicionar ao funcionario: ");
         beneficioService.listarBeneficios();
+        System.out.println("Digite o id do beneficio que deseja adicionar ao funcionario: ");
         Long idBen = scanner.nextLong();
-        scanner.nextLine();
 
 
         funcionarioService.adicionarBeneficioAoFuncionario(idFunc, idBen);

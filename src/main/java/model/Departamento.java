@@ -15,7 +15,7 @@ public class Departamento {
     private String nome;
     private String descricao;
 
-    @OneToMany(mappedBy = "departamento", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "departamento", fetch = FetchType.EAGER)
     private List<Funcionario> funcionarios;
 
     public Departamento() {}

@@ -19,6 +19,7 @@ public class FuncionarioService {
 
     public FuncionarioService() {
         this.cargoService = new CargoService();
+        this.beneficioService = new BeneficioService();
     }
 
     private EntityManager getEntityManager() {
@@ -146,21 +147,31 @@ public class FuncionarioService {
         Funcionario funcionario = consultarFuncionarioPorId(idFunc);
         Beneficio beneficio = beneficioService.consultarBeneficioPorID(idBen);
 
-        try{
+        if (funcionario == null) {
+            throw new RuntimeException("Funcionário com ID " + idFunc + " não encontrado.");
+        }
+
+        if (beneficio == null) {
+            throw new RuntimeException("Benefício com ID " + idBen + " não encontrado.");
+        }
+
+        try {
+            // Atualiza as associações bidirecionais
             funcionario.getBeneficio().add(beneficio);
             beneficio.getFuncionarios().add(funcionario);
 
             em.getTransaction().begin();
-            em.merge(funcionario);
-            em.merge(beneficio);
+            em.merge(funcionario); // Faz o merge apenas no funcionário
             em.getTransaction().commit();
+            System.out.println("Beneficio adicionado com sucesso!");
         } catch (Exception e) {
             em.getTransaction().rollback();
-            throw new RuntimeException("Erro ao adicionar o beneficio de id " + beneficio.getId() + " ao funcionario de id: " + funcionario.getId());
-        }
-        finally {
+            e.printStackTrace();
+            throw new RuntimeException("Erro ao adicionar o benefício de id " +
+                    idBen + " ao funcionário de id: " + idFunc, e);
+        } finally {
             em.close();
         }
-
     }
+
 }

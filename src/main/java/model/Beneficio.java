@@ -13,8 +13,8 @@ public class Beneficio {
     private String descricao;
     private Double valor;
 
-    @ManyToMany(mappedBy = "beneficio")
-    private List<Funcionario> funcionarios;
+    @ManyToMany(mappedBy = "beneficio", fetch = FetchType.EAGER)
+    private List<Funcionario> funcionarios = new ArrayList<>();
 
     public Beneficio (){}
 
@@ -32,7 +32,6 @@ public class Beneficio {
         this.nome = nome;
         this.descricao = descricao;
         this.valor = valor;
-        this.funcionarios = new ArrayList<>();
     }
 
     public Long getId() {
