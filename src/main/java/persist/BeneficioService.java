@@ -62,15 +62,25 @@ public class BeneficioService {
         em.close();
     }
 
-    public void excluirBeneficio(Long id) {
+    public void excluirBeneficio(Long idBeneficio) {
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
-            Beneficio beneficio = em.find(Beneficio.class, id);
+
+            Beneficio beneficio = em.find(Beneficio.class, idBeneficio);
+            if (beneficio == null) {
+                throw new RuntimeException("Benefício não encontrado.");
+            }
+            List<Funcionario> funcionarios = beneficio.getFuncionarios();
+            for (Funcionario funcionario : funcionarios) {
+                funcionario.getBeneficio().remove(beneficio);
+                em.merge(funcionario);
+            }
             em.remove(beneficio);
             em.getTransaction().commit();
         } catch (Exception e) {
-            throw new RuntimeException("Erro ao excluir beneficio" + e.getMessage(), e);
+            em.getTransaction().rollback();
+            throw new RuntimeException("Erro ao excluir o benefício.", e);
         } finally {
             em.close();
         }

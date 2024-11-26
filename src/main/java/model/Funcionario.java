@@ -32,18 +32,33 @@ public class Funcionario {
             joinColumns = @JoinColumn(name = "funcionario_id"),
             inverseJoinColumns = @JoinColumn(name = "beneficio_id")
     )
-    private List<Beneficio> beneficio;
+    private List<Beneficio> beneficios;
 
     public Funcionario() {}
 
-    public Funcionario( String nome, String cpf, Double salario, LocalDate dataAdmissao, Cargo cargo, Departamento departamento) {
+    public Funcionario( String nome, String cpf, LocalDate dataAdmissao, Cargo cargo, Departamento departamento) {
         this.nome = nome;
         this.cpf = cpf;
-        this.salario = salario;
         this.dataAdmissao = dataAdmissao;
         this.cargo = cargo;
         this.departamento = departamento;
+        this.salario = calcularSalario();
     }
+
+    public Double calcularSalario() {
+        double valorBeneficios = 0.0;
+
+        if (beneficios != null) {
+            valorBeneficios = beneficios.stream()
+                    .mapToDouble(Beneficio::getValor)
+                    .sum();
+        }
+
+        return cargo != null
+                ? cargo.getSalarioBase() + valorBeneficios
+                : 0.0;
+    }
+
 
     @Override
     public String toString() {
@@ -104,6 +119,7 @@ public class Funcionario {
 
     public void setCargo( Cargo cargo ) {
         this.cargo = cargo;
+        this.salario = calcularSalario();
     }
 
     public Departamento getDepartamento() {
@@ -115,11 +131,12 @@ public class Funcionario {
     }
 
     public List<Beneficio> getBeneficio() {
-        return beneficio;
+        return beneficios;
     }
 
     public void setBeneficio( List<Beneficio> beneficio ) {
-        this.beneficio = beneficio;
+        this.beneficios = beneficio;
+        this.salario = calcularSalario();
     }
 
 }

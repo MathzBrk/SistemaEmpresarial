@@ -13,7 +13,7 @@ public class Beneficio {
     private String descricao;
     private Double valor;
 
-    @ManyToMany(mappedBy = "beneficio", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "beneficios", fetch = FetchType.EAGER)
     private List<Funcionario> funcionarios = new ArrayList<>();
 
     public Beneficio (){}
