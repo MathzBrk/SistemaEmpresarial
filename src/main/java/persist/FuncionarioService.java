@@ -58,9 +58,12 @@ public class FuncionarioService {
         try{
             Funcionario funcionario = consultarFuncionarioPorId(idFuncionario);
             Cargo cargo = cargoService.consultarPorId(idCargo);
+            em.getTransaction().begin();
 
             if(cargo != null && funcionario != null){
                 funcionario.setCargo(cargo);
+                em.merge(funcionario);
+                em.getTransaction().commit();
             }
             else{
                 System.out.println("Entidades não encontradas");
@@ -68,6 +71,8 @@ public class FuncionarioService {
             System.out.println("Funcionario alterado com sucesso");
         } catch (Exception e) {
             throw new RuntimeException("Erro ao alterar cargo" + e.getMessage());
+        } finally {
+            em.close();
         }
     }
 
