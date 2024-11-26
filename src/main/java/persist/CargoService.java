@@ -2,6 +2,7 @@ package persist;
 
 import model.Cargo;
 import model.Departamento;
+import model.Funcionario;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -36,8 +37,7 @@ public class CargoService {
     public Cargo consultarPorId(Long id) {
         EntityManager em = getEntityManager();
         try{
-            Cargo cargo = em.find(Cargo.class, id);
-            return cargo;
+            return em.find(Cargo.class, id);
         } catch (Exception e) {
             throw new RuntimeException("Erro ao consultar cargo" + e.getMessage(),e);
         } finally {
@@ -47,22 +47,23 @@ public class CargoService {
 
     public void atualizarCargo(Long id, String nome, String descricao, Double salarioBase) {
         EntityManager em = getEntityManager();
-        em.getTransaction().begin();
-        Cargo c = em.find(Cargo.class, id);
+        try {
+            em.getTransaction().begin();
+            Cargo c = em.find(Cargo.class, id);
 
-        if(c != null){
-            c.setNome(nome);
-            c.setDescricao(descricao);
-            c.setSalarioBase(salarioBase);
+            if (c != null) {
+                c.setNome(nome);
+                c.setDescricao(descricao);
+                c.setSalarioBase(salarioBase);
 
-            em.merge(c);
-        } else {
-            em.getTransaction().rollback();
-            throw new RuntimeException("ID nao encontrado");
+                em.merge(c);
+                em.getTransaction().commit();
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao atualizar cargo" + e.getMessage(),e);
+        } finally {
+            em.close();
         }
-
-        em.getTransaction().commit();
-        em.close();
     }
 
     public void excluirCargo(Long id) {
@@ -70,7 +71,14 @@ public class CargoService {
         try {
             em.getTransaction().begin();
             Cargo c = em.find(Cargo.class, id);
-            em.remove(c);
+            if (c == null) {
+                throw new RuntimeException("Cargo não encontrado.");
+            }
+            for (Funcionario funcionario : c.getFuncionarios()) {
+                funcionario.setCargo(null);
+                em.merge(funcionario);
+            }
+            em.merge(c);
             em.getTransaction().commit();
         } catch (Exception e) {
             em.getTransaction().rollback();

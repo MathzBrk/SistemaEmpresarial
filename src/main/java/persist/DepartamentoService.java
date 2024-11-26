@@ -81,6 +81,10 @@ public class DepartamentoService {
             if (departamento == null) {
                 throw new EntityNotFoundException("Departamento com ID " + id + " não encontrado.");
             }
+            for (Funcionario funcionario : departamento.getFuncionarios()) {
+                funcionario.setDepartamento(null);
+                em.merge(funcionario);
+            }
             em.remove(departamento);
 
             em.getTransaction().commit();

@@ -71,13 +71,13 @@ public class FuncionarioService {
         }
     }
 
-    public void atualizarFuncionario (Long id, Double salario) {
+    public void atualizarFuncionario (Long id, String nome) {
         EntityManager em = getEntityManager();
         em.getTransaction().begin();
         Funcionario novoFuncionario = em.find(Funcionario.class, id);
 
         if (novoFuncionario != null) {
-            novoFuncionario.setSalario(salario);
+            novoFuncionario.setNome(nome);
             em.merge(novoFuncionario);
         } else {
             throw new RuntimeException("Erro ao atualizar funcionario");
@@ -156,12 +156,14 @@ public class FuncionarioService {
         }
 
         try {
-            // Atualiza as associações bidirecionais
+
             funcionario.getBeneficio().add(beneficio);
             beneficio.getFuncionarios().add(funcionario);
 
+            funcionario.setSalario(funcionario.calcularSalario());
+
             em.getTransaction().begin();
-            em.merge(funcionario); // Faz o merge apenas no funcionário
+            em.merge(funcionario);
             em.getTransaction().commit();
             System.out.println("Beneficio adicionado com sucesso!");
         } catch (Exception e) {

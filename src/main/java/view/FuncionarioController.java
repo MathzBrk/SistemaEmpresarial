@@ -102,10 +102,6 @@ public class FuncionarioController {
         System.out.println("CPF do funcionário: ");
         String cpf = scanner.nextLine();
 
-        System.out.println("Salário do funcionário: ");
-        Double salario = scanner.nextDouble();
-        scanner.nextLine();
-
         System.out.println("Data de admissão (formato: yyyy-MM-dd): ");
         String dataInput = scanner.nextLine();
         LocalDate dataAdmissao = LocalDate.parse(dataInput);
@@ -130,7 +126,7 @@ public class FuncionarioController {
             return;
         }
 
-        Funcionario funcionario = new Funcionario(nome, cpf, salario, dataAdmissao, cargo, departamento);
+        Funcionario funcionario = new Funcionario(nome, cpf, dataAdmissao, cargo, departamento);
 
         try {
             funcionarioService.adicionarFuncionario(funcionario);
@@ -175,13 +171,12 @@ public class FuncionarioController {
         Long id = scanner.nextLong();
         scanner.nextLine();
 
-        System.out.println("Novo salário do funcionário: ");
-        Double salario = scanner.nextDouble();
-        scanner.nextLine();
+        System.out.println("Corrigir nome do funcionário: ");
+        String nome = scanner.nextLine();
 
         try{
-            funcionarioService.atualizarFuncionario(id,salario);
-            System.out.println("Salário do funcionário alterado com sucesso");
+            funcionarioService.atualizarFuncionario(id,nome);
+            System.out.println("Nome do funcionário alterado com sucesso");
         } catch (RuntimeException e){
             System.out.println("Erro ao atualizar funcionário");
         }
