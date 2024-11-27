@@ -1,4 +1,4 @@
-package persist;
+package service;
 
 import model.Departamento;
 import model.Funcionario;
@@ -7,7 +7,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.Persistence;
-import java.util.ArrayList;
 import java.util.List;
 
 public class DepartamentoService {
@@ -143,6 +142,25 @@ public class DepartamentoService {
         for (Departamento departamento : departamentos) {
             System.out.println("ID Departamento: " + departamento.getId());
             System.out.println("Nome Departamento: " + departamento.getNome());
+        }
+    }
+
+    public void listarFuncionariosDepartamento( Long id ) {
+        Departamento departamento = consultarDepartamentoPorId(id);
+        try {
+            if (departamento != null) {
+                if(!departamento.getFuncionarios().isEmpty()) {
+                    for (Funcionario funcionario : departamento.getFuncionarios()) {
+                        System.out.println("Funcionario ID: " + funcionario.getId());
+                        System.out.println("Funcionario nome: " + funcionario.getNome());
+                        System.out.println();
+                    }
+                } else{
+                    System.out.println("Departamento sem funcionários!");
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao buscar funcionarios!" + e.getMessage(), e);
         }
     }
 }

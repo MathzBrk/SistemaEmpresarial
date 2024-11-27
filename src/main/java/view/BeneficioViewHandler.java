@@ -1,15 +1,15 @@
 package view;
 
 import model.Beneficio;
-import persist.BeneficioService;
+import service.BeneficioService;
 
 import java.util.Scanner;
 
-public class BeneficioController {
+public class BeneficioViewHandler {
     private final BeneficioService beneficioService;
     private final Scanner scanner;
 
-    public BeneficioController() {
+    public BeneficioViewHandler() {
         this.beneficioService = new BeneficioService();
         this.scanner = new Scanner(System.in);
     }
@@ -85,23 +85,18 @@ public class BeneficioController {
     }
 
     private void atualizarBeneficio() {
+        beneficioService.listarBeneficios();
+        System.out.println();
         System.out.print("ID do Beneficio a ser atualizado: ");
         Long idAtualizar = scanner.nextLong();
         scanner.nextLine();
 
-        System.out.print("Novo nome do Beneficio: ");
-        String nomeAtualizar = scanner.nextLine();
-        System.out.print("Nova descrição: ");
-        String novaDescricao = scanner.nextLine();
-        System.out.print("Novo valor: ");
+        System.out.print("Novo valor do beneficio: ");
         double novoValor = scanner.nextDouble();
 
-        try {
-            beneficioService.atualizarBeneficio(idAtualizar, nomeAtualizar, novaDescricao, novoValor);
-            System.out.println("Beneficio atualizado com sucesso!");
-        } catch (RuntimeException e) {
-            System.out.println("Erro ao atualizar o beneficio: " + e.getMessage());
-        }
+        beneficioService.atualizarBeneficio(idAtualizar, novoValor);
+        System.out.println("Beneficio atualizado com sucesso!");
+
     }
 
     private void excluirBeneficio() {

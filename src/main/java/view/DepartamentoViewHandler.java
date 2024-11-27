@@ -2,17 +2,16 @@ package view;
 
 import model.Departamento;
 import model.Funcionario;
-import persist.DepartamentoService;
+import service.DepartamentoService;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class DepartamentoController {
+public class DepartamentoViewHandler {
     private final DepartamentoService departamentoService;
     private final Scanner scanner;
 
-    public DepartamentoController(){
+    public DepartamentoViewHandler(){
         this.departamentoService = new DepartamentoService();
         this.scanner = new Scanner(System.in);
     }
@@ -24,8 +23,9 @@ public class DepartamentoController {
             System.out.println("2. Consultar Departamento por ID");
             System.out.println("3. Atualizar Departamento");
             System.out.println("4. Excluir Departamento");
-            System.out.println("5. Adicionar Funcionários a um Departamento");
-            System.out.println("6. Voltar ao Menu Principal");
+            System.out.println("5. Adicionar Funcionário a um Departamento");
+            System.out.println("6. Listar Funcionários de um Departamento");
+            System.out.println("7. Voltar ao Menu Principal");
             System.out.print("Escolha uma opção: ");
 
             int opcao = 0;
@@ -34,7 +34,7 @@ public class DepartamentoController {
                 scanner.nextLine();
             } catch (Exception e) {
                 System.out.println("Por favor, insira um número válido.");
-                scanner.nextLine(); // Limpar buffer
+                scanner.nextLine();
                 continue;
             }
 
@@ -43,8 +43,9 @@ public class DepartamentoController {
                 case 2 -> consultarDepartamentoPorId();
                 case 3 -> atualizarDepartamento();
                 case 4 -> excluirDepartamento();
-                case 5 -> adicionarFuncionariosAoDepartamento();
-                case 6 -> {
+                case 5 -> adicionarFuncionarioAoDepartamento();
+                case 6 -> listarFuncionariosDepartamento();
+                case 7 -> {
                     System.out.println("Voltando ao Menu Principal...");
                     return;
                 }
@@ -53,6 +54,15 @@ public class DepartamentoController {
         }
     }
 
+    private void listarFuncionariosDepartamento() {
+        departamentoService.listarDepartamentos();
+        System.out.println();
+        System.out.println("Digite o ID do departamento que deseja ver os funcionários: ");
+        Long id = scanner.nextLong();
+        scanner.nextLine();
+
+        departamentoService.listarFuncionariosDepartamento(id);
+    }
 
 
     private void adicionarDepartamento() {
@@ -112,14 +122,15 @@ public class DepartamentoController {
         }
     }
 
-    private void adicionarFuncionariosAoDepartamento() {
+    private void adicionarFuncionarioAoDepartamento() {
         System.out.println("Em qual departamento você deseja adicionar um funcionário: ");
         System.out.println("IDs Departamentos disponiveis: ");
         departamentoService.listarDepartamentos();
 
-
+        System.out.println();
         System.out.println("Digite o ID do departamento: ");
         Long idDepartamento = scanner.nextLong();
+        System.out.println();
 
         System.out.println("Digite o ID do funcionário que deseja adicionar: ");
         Long idFuncionario = scanner.nextLong();

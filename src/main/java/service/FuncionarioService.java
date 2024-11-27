@@ -1,4 +1,4 @@
-package persist;
+package service;
 
 import model.Beneficio;
 import model.Cargo;
