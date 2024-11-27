@@ -15,7 +15,7 @@ public class Cargo {
     private String descricao;
     private Double salarioBase;
 
-    @OneToMany(mappedBy = "cargo")
+    @OneToMany(mappedBy = "cargo", fetch = FetchType.EAGER)
     private List<Funcionario> funcionarios;
 
     public Cargo() {}

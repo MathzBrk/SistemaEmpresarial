@@ -45,15 +45,13 @@ public class CargoService {
     }
     }
 
-    public void atualizarCargo(Long id, String nome, String descricao, Double salarioBase) {
+    public void atualizarCargo(Long id, Double salarioBase) {
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
             Cargo c = em.find(Cargo.class, id);
 
             if (c != null) {
-                c.setNome(nome);
-                c.setDescricao(descricao);
                 c.setSalarioBase(salarioBase);
 
                 em.merge(c);
@@ -88,7 +86,7 @@ public class CargoService {
         }
     }
 
-    public List<Cargo> buscarCargoBanco(){
+    public List<Cargo> buscarCargosBanco(){
         EntityManager em = getEntityManager();
         try{
             return em.createQuery("SELECT c FROM Cargo c", Cargo.class).getResultList();
@@ -101,10 +99,29 @@ public class CargoService {
     }
 
     public void listarCargos() {
-        List<Cargo> cargos = buscarCargoBanco();
+        List<Cargo> cargos = buscarCargosBanco();
         for (Cargo c : cargos) {
             System.out.println("Cargo ID: " + c.getId());
             System.out.println("Cargo nome: " + c.getNome());
+        }
+    }
+
+    public void listarFuncionariosDeUmCargo(Long id){
+        Cargo cargo = consultarPorId(id);
+        try {
+            if (cargo != null) {
+                if(!cargo.getFuncionarios().isEmpty()) {
+                    for (Funcionario funcionario : cargo.getFuncionarios()) {
+                        System.out.println("Funcionario ID: " + funcionario.getId());
+                        System.out.println("Funcionario nome: " + funcionario.getNome());
+                        System.out.println();
+                    }
+                }else {
+                    System.out.println("Cargos sem funcionários cadastrados!");
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao buscar funcionarios!" + e.getMessage(), e);
         }
     }
 }

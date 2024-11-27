@@ -18,9 +18,10 @@ public class CargoController {
             System.out.println("\n=== CRUD de Cargo ===");
             System.out.println("1. Adicionar Cargo");
             System.out.println("2. Consultar Cargo por ID");
-            System.out.println("3. Atualizar Cargo");
+            System.out.println("3. Atualizar Salário Base do Cargo");
             System.out.println("4. Excluir Cargo");
-            System.out.println("5. Voltar ao Menu Principal");
+            System.out.println("5. Listar funcionarios de um Cargo");
+            System.out.println("6. Voltar ao Menu Principal");
             System.out.print("Escolha uma opção: ");
 
             int opcao = scanner.nextInt();
@@ -40,12 +41,24 @@ public class CargoController {
                     excluirCargo();
                     break;
                 case 5:
+                    listarFuncionariosCargo();
+                    break;
+                case 6:
                     System.out.println("Voltando ao Menu Principal...");
                     return;
                 default:
                     System.out.println("Opção inválida. Tente novamente.");
             }
         }
+    }
+
+    private void listarFuncionariosCargo() {
+        cargoService.listarCargos();
+        System.out.println("Digite o ID do cargo que deseja ver os funcionários: ");
+        Long id = scanner.nextLong();
+        scanner.nextLine();
+
+        cargoService.listarFuncionariosDeUmCargo(id);
     }
 
     private void adicionarCargo() {
@@ -88,15 +101,11 @@ public class CargoController {
         Long idAtualizar = scanner.nextLong();
         scanner.nextLine();
 
-        System.out.print("Novo nome do cargo: ");
-        String nomeAtualizar = scanner.nextLine();
-        System.out.print("Nova descrição: ");
-        String novaDescricao = scanner.nextLine();
         System.out.print("Novo salário base: ");
-        double novoSalarioBase = scanner.nextDouble();
+        Double novoSalarioBase = scanner.nextDouble();
 
         try {
-            cargoService.atualizarCargo(idAtualizar, nomeAtualizar, novaDescricao, novoSalarioBase);
+            cargoService.atualizarCargo(idAtualizar, novoSalarioBase);
             System.out.println("Cargo atualizado com sucesso!");
         } catch (RuntimeException e) {
             System.out.println("Erro ao atualizar o cargo: " + e.getMessage());
