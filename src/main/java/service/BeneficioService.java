@@ -1,4 +1,4 @@
-package persist;
+package service;
 
 import model.Beneficio;
 import model.Funcionario;
@@ -44,22 +44,27 @@ public class BeneficioService {
         }
     }
 
-    public void atualizarBeneficio(Long id, String nome, String descricao, double valor) {
+    public void atualizarBeneficio(Long id, Double valor) {
         EntityManager em = getEntityManager();
-        em.getTransaction().begin();
-        Beneficio novoBeneficio = em.find(Beneficio.class, id);
 
-        if (novoBeneficio != null) {
-            novoBeneficio.setNome(nome);
-            novoBeneficio.setDescricao(descricao);
-            novoBeneficio.setValor(valor);
-            em.merge(novoBeneficio);
-        } else {
-            throw new RuntimeException("Erro ao atualizar beneficio");
+        try{
+            em.getTransaction().begin();
+            Beneficio beneficio = em.find(Beneficio.class, id);
+
+            if (beneficio != null) {
+                beneficio.setValor(valor);
+                beneficio.getFuncionarios()
+                        .forEach(f -> f.setSalario(f.calcularSalario()));
+
+                em.merge(beneficio);
+                em.getTransaction().commit();
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao atualizar beneficio" + e.getMessage(), e);
+        } finally {
+            em.close();
         }
 
-        em.getTransaction().commit();
-        em.close();
     }
 
     public void excluirBeneficio(Long idBeneficio) {

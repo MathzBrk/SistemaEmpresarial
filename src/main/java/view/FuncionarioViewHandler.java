@@ -3,22 +3,22 @@ package view;
 import model.Cargo;
 import model.Departamento;
 import model.Funcionario;
-import persist.BeneficioService;
-import persist.CargoService;
-import persist.DepartamentoService;
-import persist.FuncionarioService;
+import service.BeneficioService;
+import service.CargoService;
+import service.DepartamentoService;
+import service.FuncionarioService;
 
 import java.time.LocalDate;
 import java.util.Scanner;
 
-public class FuncionarioController {
+public class FuncionarioViewHandler {
     private FuncionarioService funcionarioService;
     private final Scanner scanner;
     private CargoService cargoService;
     private DepartamentoService departamentoService;
     private BeneficioService beneficioService;
 
-    public FuncionarioController(){
+    public FuncionarioViewHandler(){
         this.scanner = new Scanner(System.in);
         this.funcionarioService = new FuncionarioService();
         this.cargoService = new CargoService();

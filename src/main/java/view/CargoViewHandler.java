@@ -1,14 +1,14 @@
 package view;
 
 import model.Cargo;
-import persist.CargoService;
+import service.CargoService;
 import java.util.Scanner;
 
-public class CargoController {
+public class CargoViewHandler {
     private final CargoService cargoService;
     private final Scanner scanner;
 
-    public CargoController() {
+    public CargoViewHandler() {
         this.cargoService = new CargoService();
         this.scanner = new Scanner(System.in);
     }
@@ -54,6 +54,7 @@ public class CargoController {
 
     private void listarFuncionariosCargo() {
         cargoService.listarCargos();
+        System.out.println();
         System.out.println("Digite o ID do cargo que deseja ver os funcionários: ");
         Long id = scanner.nextLong();
         scanner.nextLine();

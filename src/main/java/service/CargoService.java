@@ -1,7 +1,6 @@
-package persist;
+package service;
 
 import model.Cargo;
-import model.Departamento;
 import model.Funcionario;
 
 import javax.persistence.EntityManager;
@@ -53,6 +52,9 @@ public class CargoService {
 
             if (c != null) {
                 c.setSalarioBase(salarioBase);
+
+                c.getFuncionarios()
+                        .forEach(f -> f.setSalario(f.calcularSalario()));
 
                 em.merge(c);
                 em.getTransaction().commit();

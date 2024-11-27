@@ -1,18 +1,17 @@
-import persist.BeneficioService;
-import view.BeneficioController;
-import view.CargoController;
-import view.DepartamentoController;
-import view.FuncionarioController;
+import view.BeneficioViewHandler;
+import view.CargoViewHandler;
+import view.DepartamentoViewHandler;
+import view.FuncionarioViewHandler;
 
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        CargoController cargoController = new CargoController();
-        FuncionarioController funcionarioController = new FuncionarioController();
-        DepartamentoController departamentoController = new DepartamentoController();
-        BeneficioController beneficioController = new BeneficioController();
+        CargoViewHandler cargoViewHandler = new CargoViewHandler();
+        FuncionarioViewHandler funcionarioViewHandler = new FuncionarioViewHandler();
+        DepartamentoViewHandler departamentoViewHandler = new DepartamentoViewHandler();
+        BeneficioViewHandler beneficioViewHandler = new BeneficioViewHandler();
 
         while (true) {
             System.out.println("\n=== Menu Principal ===");
@@ -28,16 +27,16 @@ public class Main {
 
             switch (opcao) {
                 case 1:
-                    cargoController.exibirMenuCargo();
+                    cargoViewHandler.exibirMenuCargo();
                     break;
                 case 2:
-                    funcionarioController.exibirMenuFuncionario();
+                    funcionarioViewHandler.exibirMenuFuncionario();
                     break;
                 case 3:
-                    departamentoController.exibirMenuDepartamento();
+                    departamentoViewHandler.exibirMenuDepartamento();
                     break;
                 case 4:
-                    beneficioController.exibirMenuBeneficio();
+                    beneficioViewHandler.exibirMenuBeneficio();
                     break;
                 case 5:
                     System.out.println("Saindo...");
