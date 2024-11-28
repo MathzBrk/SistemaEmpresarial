@@ -78,7 +78,7 @@ public class CargoService {
                 funcionario.setCargo(null);
                 em.merge(funcionario);
             }
-            em.merge(c);
+            em.remove(c);
             em.getTransaction().commit();
         } catch (Exception e) {
             em.getTransaction().rollback();
